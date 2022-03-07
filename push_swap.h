@@ -6,6 +6,7 @@
 #define PUSH_SWAP_H
 # include "libft/libft.h"
 # include <stdlib.h>
+# include <stdio.h>
 
 typedef struct s_node
 {
@@ -16,9 +17,9 @@ typedef struct s_node
 
 typedef struct s_stacks
 {
-	t_node	a;
+	t_node	*a;
 	int		size_a;
-	t_node 	b;
+	t_node 	*b;
 	int		size_b;
 }	t_stacks;
 
@@ -29,6 +30,10 @@ typedef struct s_stacks
 //}	t_nodalyze;
 
 t_node	*analyze(char **input, int size);
+
+t_node *new_node(int val);
+
+void	presort(t_stacks **stacks);
 
 void raise_error(int errcode);
 

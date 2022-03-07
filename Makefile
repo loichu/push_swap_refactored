@@ -17,7 +17,7 @@ CC=gcc
 CFLAGS = -Wall -Wextra -Werror -I.
 LDFLAGS = -Llibft -lft
 
-SRCS = main.c errors.c analyze.c
+SRCS = main.c errors.c analyze.c presort.c
 
 OBJS = $(SRCS:.c=.o)
 SORT_OBJ = $(SORT_SRC:.c=.o)
