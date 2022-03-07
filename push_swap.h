@@ -22,13 +22,13 @@ typedef struct s_stacks
 	int		size_b;
 }	t_stacks;
 
-typedef struct s_nodalyze
-{
-	int	val;
-	int	ini;
-}	t_nodalyze;
+//typedef struct s_nodalyze
+//{
+//	int	val;
+//	int	ini;
+//}	t_nodalyze;
 
-t_list	*analyze(char **input, int size);
+t_node	*analyze(char **input, int size);
 
 void raise_error(int errcode);
 

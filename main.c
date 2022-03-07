@@ -4,12 +4,12 @@
 
 
 int main(int argc, char **argv) {
-	t_list		*input;
-	t_stacks	*stacks;
+	//t_node		*input;
+	//t_stacks	*stacks;
 
 	// get input
 	// analyze and validate input
-	input = analyze(&(argv[1]), argc - 1);
+	analyze(&(argv[1]), argc - 1);
 	// transform input into stack
 	// pre-sort in stack B
 	// sort in stack A
