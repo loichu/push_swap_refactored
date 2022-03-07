@@ -78,18 +78,24 @@ void	print_res(t_node *init, t_list *sort)
 void	print_nodes(t_node *node)
 {
 	while (node) {
-		printf("%i\n", node->val);
+		printf("%i\tscore: %i\n", node->val, node->score);
 		node = node->next;
 	}
 }
 
 void	replace_values(t_list *sorted)
 {
-	static int index = 0;
+	static int	index = 0;
+	t_node 		*node;
 
-	((t_node *) sorted->content)->val = index++;
+	node = (t_node *)sorted->content;
+	if (index == 0)
+		node->score = 9999;
+	node->val = index++;
 	if (sorted->next)
 		replace_values(sorted->next);
+	else
+		node->score = 9999;
 	free(sorted);
 }
 
