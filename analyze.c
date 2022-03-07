@@ -119,5 +119,6 @@ t_node *analyze(char **input, int size)
 	print_res(initial, sorted);
 	replace_values(sorted);
 	print_nodes(initial);
+	//printf("node: %p\n", initial->next);
 	return (initial);
 }

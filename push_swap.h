@@ -11,6 +11,8 @@
 typedef struct s_node
 {
 	int				val;
+	int				move_a;
+	int				move_b;
 	int				score;
 	struct s_node	*next;
 }	t_node;
@@ -22,12 +24,6 @@ typedef struct s_stacks
 	t_node 	*b;
 	int		size_b;
 }	t_stacks;
-
-//typedef struct s_nodalyze
-//{
-//	int	val;
-//	int	ini;
-//}	t_nodalyze;
 
 t_node	*analyze(char **input, int size);
 

@@ -9,6 +9,7 @@ t_stacks	*init_stacks(char **input, int size)
 	if (!stacks)
 		return (NULL);
 	stacks->a = analyze(input, size);
+	printf("node: %p\n", stacks->a->next);
 	stacks->size_a = size;
 	stacks->b = NULL;
 	stacks->size_b = 0;
