@@ -17,17 +17,16 @@ CC=gcc
 CFLAGS = -Wall -Wextra -Werror -I.
 LDFLAGS = -Llibft -lft
 
-SRCS = main.c errors.c analyze.c presort.c
+SRCS = main.c errors.c analyze.c presort.c rotate.c push.c chunks.c
 
 OBJS = $(SRCS:.c=.o)
-SORT_OBJ = $(SORT_SRC:.c=.o)
 
 RM = rm -f
 
 all:			$(NAME)
 
-$(NAME):		$(OBJS) $(SORT_OBJ)
-			gcc -o $(NAME) $(OBJS) $(SORT_OBJ) $(CFLAGS) $(LDFLAGS)
+$(NAME):		$(OBJS)
+			gcc -o $(NAME) $(OBJS) $(CFLAGS) $(LDFLAGS)
 
 clean:
 				$(RM) $(OBJS)

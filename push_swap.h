@@ -25,12 +25,33 @@ typedef struct s_stacks
 	int		size_b;
 }	t_stacks;
 
+typedef struct	s_chunk
+{
+	int 	max_size;
+	int 	size;
+	int 	min;
+	int 	max;
+	t_node	*nodes;
+	//int cursor;
+}	t_chunk;
+
 t_node	*analyze(char **input, int size);
+
+void	node_addback(t_node **list, t_node *new);
+void	node_addfront(t_node **list, t_node *new);
 
 t_node *new_node(int val);
 
 void	presort(t_stacks **stacks);
 
-void raise_error(int errcode);
+void	rotate_chunks(t_list **chunks);
+void	reverse_rotate_chunks(t_list **chunks);
+
+
+void 	raise_error(int errcode);
+
+void	r(char *cmd, t_stacks **stacks);
+void	p(char stack, t_stacks **stacks);
+void	p_chunk(t_list **chunks, t_stacks **stacks);
 
 #endif //PUSH_SWAP_H

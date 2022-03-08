@@ -32,6 +32,13 @@ void	node_addback(t_node **list, t_node *new)
 	while (iter->next)
 		iter = iter->next;
 	iter->next = new;
+	new->next = NULL;
+}
+
+void	node_addfront(t_node **list, t_node *new)
+{
+	new->next = *list;
+	*list = new;
 }
 
 void	ins_node(t_list **lst, t_list *new, t_list *prev, t_list *curr)
