@@ -14,7 +14,8 @@ NAME=push_swap
 
 CC=gcc
 
-CFLAGS = -Wall -Wextra -Werror -I.
+#CFLAGS = -Wall -Wextra -Werror -I.
+CFLAGS = -Wall -Wextra -I.
 LDFLAGS = -Llibft -lft
 
 SRCS = main.c errors.c analyze.c presort.c rotate.c push.c chunks.c

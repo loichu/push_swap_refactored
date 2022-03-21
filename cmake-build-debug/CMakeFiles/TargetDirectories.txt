@@ -1,3 +1,0 @@
-/home/loichu/dev/42/push_swap_refactored/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/loichu/dev/42/push_swap_refactored/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/loichu/dev/42/push_swap_refactored/cmake-build-debug/CMakeFiles/push_swap_refactored.dir

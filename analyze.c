@@ -59,6 +59,8 @@ void	lstadd_sort(t_list **lst, t_node *node)
 
 	curr = *lst;
 	new = ft_lstnew(node);
+	if (!curr)
+		*lst = new;
 	prev = NULL;
 	while (curr)
 	{
@@ -70,16 +72,8 @@ void	lstadd_sort(t_list **lst, t_node *node)
 		prev = curr;
 		curr = curr->next;
 	}
-	prev->next = new;
-}
-
-void	print_res(t_node *init, t_list *sort)
-{
-	while (init && sort) {
-		printf("%i\t%i\n", init->val, ((t_node *) sort->content)->val);
-		init = init->next;
-		sort = sort->next;
-	}
+	if (prev)
+		prev->next = new;
 }
 
 void	print_nodes(t_node *node)
@@ -98,7 +92,9 @@ void	replace_values(t_list *sorted)
 	node = (t_node *)sorted->content;
 	if (index == 0)
 		node->score = 9999;
+	printf("%i\t→ ", node->val);
 	node->val = index++;
+	printf("%i\n", node->val);
 	if (sorted->next)
 		replace_values(sorted->next);
 	else
@@ -113,19 +109,20 @@ t_node *analyze(char **input, int size)
 	t_list	*sorted;
 	t_node	*node;
 
-	i = 0;
-	node = new_node(ft_atoi(input[i]));
-	initial = node;
-	sorted = ft_lstnew(node);
+	i = -1;
+	initial = NULL;
+	sorted = NULL;
+	printf("INITIAL DATA RECEIVED, count: %i\n", size);
 	while (++i < size)
 	{
+		printf("%i ", ft_atoi(input[i]));
 		node = new_node(ft_atoi(input[i]));
 		node_addback(&initial, node);
 		lstadd_sort(&sorted, node);
 	}
-	print_res(initial, sorted);
+	printf("\n\nANALYZE (SORT) AND REPLACE INPUT\n");
 	replace_values(sorted);
+	printf("\nACTUAL NODES\n");
 	print_nodes(initial);
-	//printf("node: %p\n", initial->next);
 	return (initial);
 }
