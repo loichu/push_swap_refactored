@@ -11,7 +11,7 @@ t_stacks	*init_stacks(char **input, int size)
 	stacks->a = analyze(input, size);
 	//printf("node: %p\n", stacks->a->next);
 	stacks->size_a = size;
-	printf("count: %i\n", stacks->size_a);
+	//printf("count: %i\n", stacks->size_a);
 	stacks->b = NULL;
 	stacks->size_b = 0;
 	return (stacks);

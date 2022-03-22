@@ -282,7 +282,7 @@ void	presort(t_stacks **stacks)
 	int 	nb_chunks;
 	int 	chunk_size;
 	int 	last_chunk_size;
-	char 	*press_enter;
+	//char 	*press_enter;
 
 	nb_chunks = 4;
 	chunk_size = (*stacks)->size_a / nb_chunks;
@@ -291,12 +291,12 @@ void	presort(t_stacks **stacks)
 		nb_chunks++;
 	}
 	chunks = init_chunks(chunk_size, nb_chunks, last_chunk_size);
-	press_enter = "";
+	//press_enter = "";
 	while ((*stacks)->size_a > 2)
 	{
 		get_scores(*stacks, chunks);
-		print_stack_chunks(chunks, (t_node *)(*stacks)->a);
-		read(1, press_enter, 1);
+//		print_stack_chunks(chunks, (t_node *)(*stacks)->a);
+//		read(1, press_enter, 1);
 		make_moves(stacks, &chunks);
 		push_node(stacks, &chunks);
 	}

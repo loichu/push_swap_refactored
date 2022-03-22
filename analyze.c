@@ -93,9 +93,9 @@ void	replace_values(t_list *sorted)
 	node = (t_node *)sorted->content;
 	if (index == 0)
 		node->score = -1;
-	printf("%i\t→ ", node->val);
+	//printf("%i\t→ ", node->val);
 	node->val = index++;
-	printf("%i\n", node->val);
+	//printf("%i\n", node->val);
 	if (sorted->next)
 		replace_values(sorted->next);
 	else
@@ -113,17 +113,17 @@ t_node *analyze(char **input, int size)
 	i = -1;
 	initial = NULL;
 	sorted = NULL;
-	printf("INITIAL DATA RECEIVED, count: %i\n", size);
+	//printf("INITIAL DATA RECEIVED, count: %i\n", size);
 	while (++i < size)
 	{
-		printf("%i ", ft_atoi(input[i]));
+		//printf("%i ", ft_atoi(input[i]));
 		node = new_node(ft_atoi(input[i]));
 		node_addback(&initial, node);
 		lstadd_sort(&sorted, node);
 	}
-	printf("\n\nANALYZE (SORT) AND REPLACE INPUT\n");
+	//printf("\n\nANALYZE (SORT) AND REPLACE INPUT\n");
 	replace_values(sorted);
-	printf("\nACTUAL NODES\n");
-	print_nodes(initial);
+	//printf("\nACTUAL NODES\n");
+	//print_nodes(initial);
 	return (initial);
 }
