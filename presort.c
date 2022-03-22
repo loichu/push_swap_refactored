@@ -93,6 +93,7 @@ bool	print_chunk_node(t_chunk *chunk)
 {
 	static t_node	*node;
 	static t_chunk 	*prev_chunk;
+	static int 		i;
 
 	if (!chunk)
 		return (false);
@@ -106,14 +107,16 @@ bool	print_chunk_node(t_chunk *chunk)
 	{
 		printf("Chunk: %i → %i\t", chunk->min, chunk->max);
 		prev_chunk = chunk;
+		i = 0;
 	}
 	if (!node || !node->next)
 	{
-		printf("count: %i", chunk->size);
+		printf("count: %i/%i", chunk->size, i);
 		node = NULL;
 		return (false);
 	}
 	node = node->next;
+	i++;
 	return (true);
 }
 
