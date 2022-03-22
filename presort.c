@@ -126,11 +126,11 @@ void	print_stack_chunks(t_list *chunks, t_node *stack_a)
 		printf("\t\t\t\t");
 	chunks = chunks->next;
 	chunk = (t_chunk *)chunks->content;
-	printf("%i\t%i\t%i\t%i\n", stack_a->val, stack_a->score, stack_a->move_a, stack_a->move_b);
+	printf("%i\t%i\t%i\t%i\n", stack_a->val, stack_a->move_a, stack_a->score, stack_a->move_b);
 	stack_a = stack_a->next;
 	while (stack_a)
 	{
-		printf("%i\t%i\t%i\t%i\t", stack_a->val, stack_a->score, stack_a->move_a, stack_a->move_b);
+		printf("%i\t%i\t%i\t%i\t", stack_a->val, stack_a->move_a, stack_a->score, stack_a->move_b);
 		if (!print_chunk_node(chunk))
 		{
 			if (chunks->next)
@@ -273,12 +273,4 @@ void	presort(t_stacks **stacks)
 	print_stack_chunks(chunks, (t_node *)(*stacks)->a);
 	push_node(stacks, &chunks);
 	print_stack_chunks(chunks, (t_node *)(*stacks)->a);
-//	while ((*stacks)->size_a > 2)
-//	{
-//		get_scores(*stacks, chunks);
-//		print_scores(*stacks);
-//		make_moves(stacks, &chunks);
-//		printf("moves done\n");
-//		print_stack_chunks(chunks);
-//	}
 }
