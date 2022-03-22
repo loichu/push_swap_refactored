@@ -61,7 +61,7 @@ int	move_to_chunk(t_node *node, t_list *chunks, int stack_size)
 
 int calc_score(t_node *node)
 {
-	if (node->move_a * node->move_b >= 0)
+	if (node->move_a * node->move_b > 0)
 		return (max(abs(node->move_a), abs(node->move_b)));
 	return (abs(node->move_a) + abs(node->move_b));
 }
@@ -149,48 +149,108 @@ t_node	*get_best_node(t_node *stack)
 {
 	t_node	*best_node;
 
-	best_node = stack;
+	best_node = NULL;
 	while (stack)
 	{
-		if (stack->score < best_node->score)
+		if (stack->score > 0
+			&& (!best_node || stack->score < best_node->score))
 			best_node = stack;
 		stack = stack->next;
 	}
 	return (best_node);
 }
 
+void	exec_rotates(t_stacks **stacks, char stack, int moves)
+{
+	char	*cmd;
+	int 	i;
+
+	i = 0;
+	cmd = (char *)malloc(3 * sizeof(char));
+	if (moves < 0)
+		cmd[i++] = 'r';
+	cmd[i++] = stack;
+	cmd[i] = '\0';
+	moves = abs(moves);
+	while (moves--)
+		chunks_r(cmd, stacks);
+}
+
+void	exec_rotates_together(t_stacks **stacks, t_node *best_node)
+{
+	char	*cmd;
+	int 	moves;
+
+	moves = min(abs(best_node->move_a), abs(best_node->move_b));
+	if (best_node->move_a > 0)
+	{
+		cmd = "r";
+		best_node->move_a -= moves;
+		best_node->move_b -= moves;
+	}
+	else
+	{
+		cmd = "rr";
+		best_node->move_a += moves;
+		best_node->move_b += moves;
+	}
+	while (moves--)
+		chunks_r(cmd, stacks);
+}
+
 void	rotate_stacks(t_stacks **stacks, t_node *best_node)
 {
-	int moves;
-
-	moves = best_node->move_a;
-	if (moves < 0)
-		moves *= -1;
-	while (moves-- > 0)
-	{
-		if (best_node->move_a < 0)
-			r("ra", stacks);
-		else
-			r("a", stacks);
-	}
+	if (best_node->move_a * best_node->move_b > 0)
+		exec_rotates_together(stacks, best_node);
+	if (best_node->move_a)
+		exec_rotates(stacks, 'a', best_node->move_a);
+	if (best_node->move_b)
+		exec_rotates(stacks, 'b', best_node->move_b);
 }
 
 void	make_moves(t_stacks **stacks, t_list **chunks)
 {
 	t_node	*best_node;
-	t_chunk	*curr_chunk;
+	t_chunk	*first_chunk;
+	t_chunk	*last_chunk;
 
 	best_node = get_best_node((*stacks)->a);
-	curr_chunk = (t_chunk *)(*chunks)->content;
-	printf("got best node\n");
-	while (best_node->val < curr_chunk->min || best_node->val > curr_chunk->max)
+	first_chunk = (t_chunk *)(*chunks)->next->content;
+	last_chunk = (t_chunk *)(*chunks)->content;
+	while (!is_in_chunk(best_node, first_chunk)
+		|| !is_in_chunk(best_node, last_chunk))
 	{
 		rotate_chunks(chunks);
-		curr_chunk = (t_chunk *)(*chunks)->content;
+		first_chunk = (t_chunk *)(*chunks)->next->content;
+		last_chunk = (t_chunk *)(*chunks)->content;
 	}
-	printf("chunks rotated\n");
 	rotate_stacks(stacks, best_node);
-	p_chunk(chunks, stacks);
+}
+
+void	push_node(t_stacks **stacks, t_list **chunks)
+{
+	t_chunk	*first_chunk;
+	t_chunk	*last_chunk;
+	t_node	*node;
+
+	first_chunk = (t_chunk *)(*chunks)->next->content;
+	last_chunk = (t_chunk *)(*chunks)->content;
+	node = (t_node *)(*stacks)->a;
+	(*stacks)->a = node->next;
+	(*stacks)->size_a--;
+	if (is_in_chunk(node, first_chunk))
+	{
+		first_chunk->size++;
+		node_addfront(&(first_chunk->nodes), node);
+	}
+	else if (is_in_chunk(node, last_chunk))
+	{
+		last_chunk->size++;
+		node_addback(&(last_chunk->nodes), node);
+		chunks_r("b", stacks);
+	}
+	(*stacks)->size_b++;
+	ft_putstr_fd("pb\n", 1);
 }
 
 void	presort(t_stacks **stacks)
@@ -209,7 +269,10 @@ void	presort(t_stacks **stacks)
 	chunks = init_chunks(chunk_size, nb_chunks, last_chunk_size);
 	get_scores(*stacks, chunks);
 	print_stack_chunks(chunks, (t_node *)(*stacks)->a);
-	//print_chunks(chunks);
+	make_moves(stacks, &chunks);
+	print_stack_chunks(chunks, (t_node *)(*stacks)->a);
+	push_node(stacks, &chunks);
+	print_stack_chunks(chunks, (t_node *)(*stacks)->a);
 //	while ((*stacks)->size_a > 2)
 //	{
 //		get_scores(*stacks, chunks);

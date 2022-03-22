@@ -47,6 +47,7 @@ void	presort(t_stacks **stacks);
 
 int 	abs(int x);
 int 	max(int x, int y);
+int 	min(int x, int y);
 
 //void	_rotate_chunks(t_list **chunks);
 //void	_reverse_rotate_chunks(t_list **chunks);
@@ -57,6 +58,7 @@ void	reverse_rotate_chunks(t_list **chunks);
 void 	raise_error(int errcode);
 
 void	r(char *cmd, t_stacks **stacks);
+void	chunks_r(char *cmd, t_stacks **stacks);
 void	p(char stack, t_stacks **stacks);
 void	p_chunk(t_list **chunks, t_stacks **stacks);
 
