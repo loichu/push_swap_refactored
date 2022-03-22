@@ -18,7 +18,7 @@ CC=gcc
 CFLAGS = -Wall -Wextra -I.
 LDFLAGS = -Llibft -lft
 
-SRCS = main.c errors.c analyze.c presort.c rotate.c push.c chunks.c
+SRCS = main.c errors.c analyze.c presort.c rotate.c push.c chunks.c math.c
 
 OBJS = $(SRCS:.c=.o)
 

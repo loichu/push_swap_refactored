@@ -91,14 +91,14 @@ void	replace_values(t_list *sorted)
 
 	node = (t_node *)sorted->content;
 	if (index == 0)
-		node->score = 9999;
+		node->score = -1;
 	printf("%i\t→ ", node->val);
 	node->val = index++;
 	printf("%i\n", node->val);
 	if (sorted->next)
 		replace_values(sorted->next);
 	else
-		node->score = 9999;
+		node->score = -1;
 	free(sorted);
 }
 

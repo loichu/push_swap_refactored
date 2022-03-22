@@ -26,7 +26,7 @@ int main(int argc, char **argv) {
 	stacks = init_stacks(&(argv[1]), argc - 1);
 	// transform input into stack
 	// pre-sort in stack B
-	//presort(&stacks);
+	presort(&stacks);
 	// sort in stack A
 
 	return 0;

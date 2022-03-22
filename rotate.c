@@ -33,15 +33,25 @@ void	reverse(t_node **stk)
 	*stk = tmp;
 }
 
-//void	r_chunk(t_chunk **chunks, t_stacks **stacks)
-//{
-//	ft_putstr_fd("rb\n", 1);
-//}
+void	print_cmd(char *cmd)
+{
+	ft_putchar_fd('r', 1);
+	ft_putstr_fd(cmd, 1);
+	ft_putchar_fd('\n', 1);
+}
+
+void	chunks_r(char *cmd, t_stacks **stacks)
+{
+	print_cmd(cmd);
+	if ((*cmd == 'a' || *cmd == 'r') && *(++cmd) == '\0')
+		rotate(&(*stacks)->a);
+	else if (*cmd == 'r' || *cmd == 'a')
+		reverse(&(*stacks)->a);
+}
 
 void	r(char *cmd, t_stacks **stacks)
 {
-	ft_putstr_fd(cmd, 1);
-	ft_putchar_fd('\n', 1);
+	print_cmd(cmd);
 	if (*cmd == 'a')
 		rotate(&(*stacks)->a);
 	else if (*cmd == 'b')

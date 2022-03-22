@@ -7,6 +7,7 @@
 # include "libft/libft.h"
 # include <stdlib.h>
 # include <stdio.h>
+# include <stdbool.h>
 
 typedef struct s_node
 {
@@ -44,6 +45,11 @@ t_node *new_node(int val);
 
 void	presort(t_stacks **stacks);
 
+int 	abs(int x);
+int 	max(int x, int y);
+
+//void	_rotate_chunks(t_list **chunks);
+//void	_reverse_rotate_chunks(t_list **chunks);
 void	rotate_chunks(t_list **chunks);
 void	reverse_rotate_chunks(t_list **chunks);
 
