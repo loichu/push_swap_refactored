@@ -261,6 +261,7 @@ void	push_node(t_stacks **stacks, t_list **chunks)
 	node = (t_node *)(*stacks)->a;
 	(*stacks)->a = node->next;
 	(*stacks)->size_a--;
+	ft_putstr_fd("pb\n", 1);
 	if (is_in_chunk(node, first_chunk))
 	{
 		first_chunk->size++;
@@ -273,7 +274,6 @@ void	push_node(t_stacks **stacks, t_list **chunks)
 		chunks_r("b", stacks);
 	}
 	(*stacks)->size_b++;
-	ft_putstr_fd("pb\n", 1);
 }
 
 void	presort(t_stacks **stacks)
