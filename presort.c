@@ -110,7 +110,7 @@ bool	print_chunk_node(t_chunk *chunk)
 	}
 	if (!node || !node->next)
 	{
-		printf("\tcount: %i", chunk->size);
+		printf("count: %i", chunk->size);
 		node = NULL;
 		return (false);
 	}
@@ -123,9 +123,14 @@ void	print_stack_chunks(t_list *chunks, t_node *stack_a)
 	t_chunk	*chunk;
 
 	chunk = (t_chunk *)chunks->content;
+	printf("A\tMA\tS\tMB\tB\n");
+	printf("====================================\n");
 	printf("\t\t\t\t");
 	while (print_chunk_node(chunk))
+	{
+		printf("\n");
 		printf("\t\t\t\t");
+	}
 	printf("\n");
 	chunks = chunks->next;
 	chunk = (t_chunk *)chunks->content;
@@ -145,6 +150,21 @@ void	print_stack_chunks(t_list *chunks, t_node *stack_a)
 				chunk = NULL;
 		}
 		stack_a = stack_a->next;
+		printf("\n");
+	}
+	while (chunks)
+	{
+		printf("\t\t\t\t");
+		if (!print_chunk_node(chunk))
+		{
+			if (chunks->next)
+			{
+				chunks = chunks->next;
+				chunk = (t_chunk *)chunks->content;
+			}
+			else
+				chunks = NULL;
+		}
 		printf("\n");
 	}
 }
@@ -265,6 +285,7 @@ void	presort(t_stacks **stacks)
 	int 	nb_chunks;
 	int 	chunk_size;
 	int 	last_chunk_size;
+	char 	*press_enter;
 
 	nb_chunks = 4;
 	chunk_size = (*stacks)->size_a / nb_chunks;
@@ -273,12 +294,17 @@ void	presort(t_stacks **stacks)
 		nb_chunks++;
 	}
 	chunks = init_chunks(chunk_size, nb_chunks, last_chunk_size);
-	get_scores(*stacks, chunks);
-	print_stack_chunks(chunks, (t_node *)(*stacks)->a);
-	printf("======= MAKE MOVES =======\n");
-	make_moves(stacks, &chunks);
-	print_stack_chunks(chunks, (t_node *)(*stacks)->a);
-	printf("======= PUSH NODE =======\n");
-	push_node(stacks, &chunks);
-	print_stack_chunks(chunks, (t_node *)(*stacks)->a);
+	press_enter = "";
+	while ((*stacks)->size_a > 2)
+	{
+		get_scores(*stacks, chunks);
+		print_stack_chunks(chunks, (t_node *)(*stacks)->a);
+		read(1, press_enter, 1);
+		//printf("======= MAKE MOVES =======\n");
+		make_moves(stacks, &chunks);
+		//print_stack_chunks(chunks, (t_node *)(*stacks)->a);
+		//printf("======= PUSH NODE =======\n");
+		push_node(stacks, &chunks);
+		//print_stack_chunks(chunks, (t_node *)(*stacks)->a);
+	}
 }
