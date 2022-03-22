@@ -24,23 +24,6 @@ t_list *init_chunks(int chunk_size, int nb_chunks, int last_chunk_size)
 	return (chunks);
 }
 
-void	print_chunks(t_list *chunks)
-{
-	t_chunk		*chunk;
-	static int	i;
-
-	i = 0;
-	chunk = (t_chunk *)chunks->content;
-	while (chunk)
-	{
-		printf("Chunk #%i: %i → %i\n", ++i, chunk->min, chunk->max);
-		if ((chunks = chunks->next))
-			chunk = (t_chunk *)chunks->content;
-		else
-			chunk = NULL;
-	}
-}
-
 int	move_to_top(int index, int stack_size)
 {
 	if (index > stack_size / 2)
@@ -102,18 +85,6 @@ void	get_scores(t_stacks *stacks, t_list *chunks)
 		node->score = calc_score(node);
 		if (is_in_chunk(node, (t_chunk *)chunks->content))
 			node->score++;
-		node = node->next;
-	}
-}
-
-void	print_scores(t_stacks *stacks)
-{
-	t_node	*node;
-
-	node = stacks->a;
-	while (node)
-	{
-		printf("%i\tscore: %i\tmove a: %i\tmove b: %i\n", node->val, node->score, node->move_a, node->move_b);
 		node = node->next;
 	}
 }
