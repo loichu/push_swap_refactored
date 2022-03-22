@@ -26,6 +26,7 @@ void	node_addback(t_node **list, t_node *new)
 	if (!*list)
 	{
 		*list = new;
+		new->next = NULL;
 		return ;
 	}
 	iter = *list;
