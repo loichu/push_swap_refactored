@@ -94,28 +94,26 @@ bool	print_chunk_node(t_chunk *chunk)
 {
 	static t_node	*node;
 	static t_chunk 	*prev_chunk;
-	static int		i;
 
-	if (!node && chunk && chunk != prev_chunk)
+	if (!chunk)
+		return (false);
+	if (!node)
+		node = chunk->nodes;
+	if (node)
+		printf("%i\t", node->val);
+	else
+		printf("\t");
+	if (chunk != prev_chunk)
 	{
 		printf("Chunk: %i → %i\t", chunk->min, chunk->max);
-		node = chunk->nodes;
-		i = 0;
 		prev_chunk = chunk;
 	}
-	if (i > 0)
-		printf("\t\t\t\t");
-	if (node)
+	if (!node || !node->next)
 	{
-		printf("%i", node->val);
-		if (!node->next)
-			printf("\tcount: %i", chunk->size);
-	}
-	else
-	{
+		printf("\tcount: %i", chunk->size);
+		node = NULL;
 		return (false);
 	}
-	prev_chunk = chunk;
 	node = node->next;
 	return (true);
 }
@@ -145,7 +143,6 @@ void	print_stack_chunks(t_list *chunks, t_node *stack_a)
 			}
 			else
 				chunk = NULL;
-			print_chunk_node(chunk);
 		}
 		stack_a = stack_a->next;
 		printf("\n");
