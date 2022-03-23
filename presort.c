@@ -1,62 +1,10 @@
 #include "push_swap.h"
 
-t_list *init_chunks(int chunk_size, int nb_chunks, int last_chunk_size)
-{
-	t_chunk *chunk;
-	t_list 	*chunks;
-	int 	i;
-
-	chunks = NULL;
-	i = 0;
-	while (i++ < nb_chunks)
-	{
-		chunk = (t_chunk *)malloc(sizeof(t_chunk));
-		chunk->min = (i - 1) * chunk_size;
-		if (nb_chunks == i && last_chunk_size) {
-			chunk_size = last_chunk_size;
-		}
-		chunk->max = chunk->min + chunk_size - 1;
-		chunk->max_size = chunk_size;
-		chunk->size = 0;
-		ft_lstadd_back(&chunks, ft_lstnew(chunk));
-	}
-	reverse_rotate_chunks(&chunks);
-	return (chunks);
-}
-
 int	move_to_top(int index, int stack_size)
 {
 	if (index > stack_size / 2)
 		index = (stack_size - index) * -1;
 	return (index);
-}
-
-bool	is_in_chunk(t_node *node, t_chunk *chunk)
-{
-	if (node->val >= chunk->min && node->val <= chunk->max)
-		return (true);
-	return (false);
-}
-
-int	move_to_chunk(t_node *node, t_list *chunks, int stack_size)
-{
-	t_chunk	*first_chunk;
-	t_chunk	*last_chunk;
-	int 	move;
-
-	move = 0;
-	while (chunks->next)
-	{
-		first_chunk = (t_chunk *)chunks->next->content;
-		last_chunk = (t_chunk *)chunks->content;
-		if (is_in_chunk(node, first_chunk) || is_in_chunk(node, last_chunk))
-			break ;
-		move += first_chunk->size;
-		chunks = chunks->next;
-	}
-	if (move > stack_size / 2)
-		move = (stack_size - move) * -1;
-	return (move);
 }
 
 int calc_score(t_node *node)
@@ -87,100 +35,6 @@ void	get_scores(t_stacks *stacks, t_list *chunks)
 			node->score++;
 		node = node->next;
 	}
-}
-
-bool	print_chunk_node(t_chunk *chunk)
-{
-	static t_node	*node;
-	static t_chunk 	*prev_chunk;
-
-	if (!chunk)
-		return (false);
-	if (!node)
-		node = chunk->nodes;
-	if (node)
-		printf("%i\t", node->val);
-	else
-		printf("\t");
-	if (chunk != prev_chunk)
-	{
-		printf("Chunk: %i → %i\t", chunk->min, chunk->max);
-		prev_chunk = chunk;
-	}
-	if (!node || !node->next)
-	{
-		printf("count: %i", chunk->size);
-		node = NULL;
-		return (false);
-	}
-	node = node->next;
-	return (true);
-}
-
-void	print_stack_chunks(t_list *chunks, t_node *stack_a)
-{
-	t_chunk	*chunk;
-
-	chunk = (t_chunk *)chunks->content;
-	printf("A\tMA\tS\tMB\tB\n");
-	printf("====================================\n");
-	printf("\t\t\t\t");
-	while (print_chunk_node(chunk))
-	{
-		printf("\n");
-		printf("\t\t\t\t");
-	}
-	printf("\n");
-	chunks = chunks->next;
-	chunk = (t_chunk *)chunks->content;
-	printf("%i\t%i\t%i\t%i\n", stack_a->val, stack_a->move_a, stack_a->score, stack_a->move_b);
-	stack_a = stack_a->next;
-	while (stack_a)
-	{
-		printf("%i\t%i\t%i\t%i\t", stack_a->val, stack_a->move_a, stack_a->score, stack_a->move_b);
-		if (!print_chunk_node(chunk))
-		{
-			if (chunks->next)
-			{
-				chunks = chunks->next;
-				chunk = (t_chunk *)chunks->content;
-			}
-			else
-				chunk = NULL;
-		}
-		stack_a = stack_a->next;
-		printf("\n");
-	}
-	while (chunks)
-	{
-		printf("\t\t\t\t");
-		if (!print_chunk_node(chunk))
-		{
-			if (chunks->next)
-			{
-				chunks = chunks->next;
-				chunk = (t_chunk *)chunks->content;
-			}
-			else
-				chunks = NULL;
-		}
-		printf("\n");
-	}
-}
-
-t_node	*get_best_node(t_node *stack)
-{
-	t_node	*best_node;
-
-	best_node = NULL;
-	while (stack)
-	{
-		if (stack->score >= 0
-			&& (!best_node || stack->score < best_node->score))
-			best_node = stack;
-		stack = stack->next;
-	}
-	return (best_node);
 }
 
 void	exec_rotates(t_stacks **stacks, char stack, int moves)
@@ -282,7 +136,6 @@ void	presort(t_stacks **stacks)
 	int 	nb_chunks;
 	int 	chunk_size;
 	int 	last_chunk_size;
-	//char 	*press_enter;
 
 	nb_chunks = 4;
 	chunk_size = (*stacks)->size_a / nb_chunks;
@@ -291,12 +144,9 @@ void	presort(t_stacks **stacks)
 		nb_chunks++;
 	}
 	chunks = init_chunks(chunk_size, nb_chunks, last_chunk_size);
-	//press_enter = "";
 	while ((*stacks)->size_a > 2)
 	{
 		get_scores(*stacks, chunks);
-//		print_stack_chunks(chunks, (t_node *)(*stacks)->a);
-//		read(1, press_enter, 1);
 		make_moves(stacks, &chunks);
 		push_node(stacks, &chunks);
 	}

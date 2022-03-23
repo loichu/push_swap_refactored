@@ -39,27 +39,36 @@ typedef struct	s_chunk
 
 t_node	*analyze(char **input, int size);
 
+// node.c
+t_node	*new_node(int val);
 void	node_addback(t_node **list, t_node *new);
 void	node_addfront(t_node **list, t_node *new);
+void	ins_node(t_list **lst, t_list *new, t_list *prev, t_list *curr);
+t_node	*get_best_node(t_node *stack);
 
-t_node *new_node(int val);
 
 void	presort(t_stacks **stacks);
 
+// math.c
 int 	abs(int x);
 int 	max(int x, int y);
 int 	min(int x, int y);
 
-//void	_rotate_chunks(t_list **chunks);
-//void	_reverse_rotate_chunks(t_list **chunks);
+// chunks.c
+t_list *init_chunks(int chunk_size, int nb_chunks, int last_chunk_size);
 void	rotate_chunks(t_list **chunks);
 void	reverse_rotate_chunks(t_list **chunks);
+bool	is_in_chunk(t_node *node, t_chunk *chunk);
+int		move_to_chunk(t_node *node, t_list *chunks, int stack_size);
 
-
+// errors.c
 void 	raise_error(int errcode);
 
+// rotate.c
 void	r(char *cmd, t_stacks **stacks);
 void	chunks_r(char *cmd, t_stacks **stacks);
+
+// push.c
 void	p(char stack, t_stacks **stacks);
 void	p_chunk(t_list **chunks, t_stacks **stacks);
 
